@@ -1,0 +1,33 @@
+services:
+  beam-java-dev:
+    build:
+      context: ./beam-java
+      dockerfile: Dockerfile
+    container_name: beam-java-dev
+    volumes:
+      - ./beam-java:/app
+    working_dir: /app
+    environment:
+      - JAVA_HOME=/usr/local/openjdk-17
+    networks:
+      - roadrunner-network
+
+  beam-go-dev:
+    build:
+      context: ./beam-go
+      dockerfile: Dockerfile
+    dns:
+    - 8.8.8.8
+    - 8.8.4.4
+    container_name: beam-go-dev
+    volumes:
+      - ./beam-go:/go/src/app
+    working_dir: /go/src/app
+    environment:
+      - GO111MODULE=on
+    networks:
+      - roadrunner-network
+
+networks:
+  roadrunner-network:
+    external: true
